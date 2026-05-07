@@ -2,213 +2,267 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GX 프로그램 현황</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<title>반정아이파크캐슬5단지 커뮤니티</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-    --primary: #4299e1;
-    --full:    #e53e3e;
-    --warn:    #d69e2e;
-    --ok:      #38a169;
-    --bg:      #f0f4f8;
-    --card:    #ffffff;
-    --t1:      #1a202c;
-    --t2:      #4a5568;
-    --t3:      #a0aec0;
-    --border:  #e2e8f0;
-    --admin:   #ed64a6;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+    --bg:#0c0f14;
+    --s1:#141820;
+    --s2:#1c2130;
+    --s3:#232b3e;
+    --border:rgba(255,255,255,0.12);
+    --border-lit:rgba(99,179,237,0.35);
+    --accent:#63b3ed;
+    --accent-dim:rgba(99,179,237,0.12);
+    --accent-glow:rgba(99,179,237,0.2);
+    --ok:#68d391;
+    --ok-dim:rgba(104,211,145,0.12);
+    --warn:#f6ad55;
+    --warn-dim:rgba(246,173,85,0.12);
+    --full:#fc8181;
+    --full-dim:rgba(252,129,129,0.12);
+    --t1:#ffffff;
+    --t2:#b0c4d8;
+    --t3:#7890a0;
+    --r:16px;
+    --rs:10px;
+    --mono:'DM Mono',monospace;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;font-size:16px;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(99,179,237,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,179,237,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;top:-30vh;left:50%;transform:translateX(-50%);width:80vw;height:60vh;background:radial-gradient(ellipse,rgba(99,179,237,0.07) 0%,transparent 70%);pointer-events:none;z-index:0;}
 
-.header{background:linear-gradient(135deg,#1a202c,#2d3748);color:white;padding:18px 16px 14px;text-align:center;position:relative;}
-.header h1{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;margin-bottom:2px;}
-.header p{font-size:11px;color:#a0aec0;}
-.sync{position:absolute;top:14px;right:14px;display:flex;align-items:center;gap:5px;font-size:10px;color:#68d391;}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#68d391;animation:pulse 2s infinite;}
+.nav-bar{position:sticky;top:0;z-index:100;width:100%;display:flex;flex-direction:column;align-items:center;padding:12px 16px 0;background:rgba(12,15,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:"Noto Sans KR",sans-serif;font-size:15px;font-weight:700;color:var(--t1);margin-bottom:10px;letter-spacing:-0.3px;}
+.nav-inner{display:flex;gap:3px;background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin-bottom:12px;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-btn{display:flex;align-items:center;padding:10px 16px;border:none;border-radius:10px;background:transparent;color:var(--t2);font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;border:1px solid transparent;}
+.nav-btn:hover{color:var(--t2);background:var(--s2);}
+.nav-btn.on{background:var(--accent-dim);color:var(--accent);border-color:var(--border-lit);}
+.nav-btn.hidden{display:none;}
+
+.sync-bar{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--t3);padding:7px 12px;background:var(--s1);border:1px solid var(--border);border-radius:8px;margin-bottom:16px;}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);flex-shrink:0;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.rprog{flex:1;height:3px;background:var(--s3);border-radius:2px;overflow:hidden;}
+.rfill{height:100%;background:var(--accent);border-radius:2px;transition:width 1s linear;}
 
-.tabs{display:flex;background:#2d3748;overflow-x:auto;}
-.tab{flex:1;min-width:70px;background:transparent;border:none;border-bottom:3px solid transparent;
-    padding:13px 4px;font-size:11px;font-weight:700;color:#a0aec0;cursor:pointer;white-space:nowrap;
-    font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
-.tab:hover{color:white;}
-.tab.on{color:white;border-bottom-color:var(--primary);}
-.tab.admin-tab{display:none;}
+.container{position:relative;z-index:1;width:92%;max-width:1000px;margin:20px auto 60px;}
 
-.section{display:none;padding:14px;}
-.section.on{display:block;}
+.section{display:none;}
+.section.on{display:block;animation:rise 0.3s cubic-bezier(0.2,0,0,1);}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.card-title{font-size:15px;font-weight:900;margin-bottom:4px;}
-.card-sub{font-size:11px;color:var(--t3);margin-bottom:14px;}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:24px;padding:28px 24px;margin-bottom:14px;}
+.card-label{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-dim);border:1px solid var(--border-lit);border-radius:999px;padding:5px 14px;margin-bottom:14px;}
+.card-title{font-size:20px;font-weight:700;letter-spacing:-0.3px;margin-bottom:6px;}
+.card-sub{font-size:14px;color:var(--t3);margin-bottom:16px;line-height:1.5;}
+.divider{height:1px;background:var(--border);margin:16px 0;}
 
-.loc-label{font-size:10px;font-weight:900;letter-spacing:1.5px;color:white;padding:5px 12px;border-radius:6px;margin:14px 0 8px;display:inline-block;}
-.loc-gym{background:#667eea;}
-.loc-sports{background:#48bb78;}
+.loc-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--t3);padding:4px 0;margin:16px 0 8px;display:block;}
 
 .sg-wrap{overflow-x:auto;}
-.sg{display:grid;grid-template-columns:64px 1fr 1fr;gap:3px;min-width:260px;}
-.sg-head{background:#2d3748;color:white;padding:8px 4px;text-align:center;font-weight:700;font-size:11px;border-radius:4px;}
-.sg-time{background:#edf2f7;color:var(--t2);padding:6px 4px;text-align:center;font-weight:600;border-radius:4px;font-size:9px;display:flex;align-items:center;justify-content:center;line-height:1.3;white-space:pre-line;}
-.sg-cell{border-radius:6px;padding:7px 5px;text-align:center;font-size:10px;font-weight:600;line-height:1.4;cursor:pointer;transition:transform .15s,box-shadow .15s;}
-.sg-cell:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(0,0,0,.15);}
-.sg-empty{background:#f7fafc;color:#cbd5e0;cursor:default;font-size:14px;}
+.sg{display:grid;grid-template-columns:58px 1fr 1fr;gap:3px;min-width:260px;}
+.sg-head{background:var(--s3);color:var(--t1);padding:11px 6px;text-align:center;font-weight:700;font-size:14px;border-radius:6px;font-family:"Noto Sans KR",sans-serif;}
+.sg-time{background:var(--s2);color:var(--t1);padding:10px 4px;text-align:center;font-weight:600;border-radius:6px;font-size:13px;font-family:var(--mono);display:flex;align-items:center;justify-content:center;line-height:1.3;white-space:pre-line;}
+.sg-cell{border-radius:8px;padding:12px 8px;text-align:center;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid transparent;}
+.sg-cell:hover{transform:scale(1.03);box-shadow:0 4px 16px rgba(0,0,0,.4);}
+.sg-empty{background:var(--s2);color:var(--t3);cursor:default;font-size:14px;}
 .sg-empty:hover{transform:none;box-shadow:none;}
-.cap-badge{display:inline-block;background:rgba(0,0,0,.15);border-radius:10px;padding:1px 6px;font-size:9px;font-weight:700;margin-top:2px;}
-.st-ok{background:#c6f6d5;color:#276749;}
-.st-warn{background:#fefcbf;color:#744210;}
-.st-full{background:#fed7d7;color:#822727;}
+.cap-badge{display:inline-block;background:rgba(0,0,0,.25);border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700;margin-top:4px;font-family:var(--mono);}
+.st-ok{background:var(--ok-dim);color:var(--ok);border-color:rgba(104,211,145,0.2);}
+.st-warn{background:var(--warn-dim);color:var(--warn);border-color:rgba(246,173,85,0.2);}
+.st-full{background:var(--full-dim);color:var(--full);border-color:rgba(252,129,129,0.2);}
 
-.prog-list{display:flex;flex-direction:column;gap:10px;}
-.prog-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:box-shadow .2s;}
-.prog-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);}
-.prog-card.st-ok  {border-left:4px solid var(--ok);}
-.prog-card.st-warn{border-left:4px solid var(--warn);}
-.prog-card.st-full{border-left:4px solid var(--full);}
+.prog-list{display:flex;flex-direction:column;gap:8px;}
+.prog-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;transition:all .2s;}
+.prog-card:hover{border-color:rgba(255,255,255,0.12);background:var(--s3);}
+.prog-card.st-ok  {border-left:3px solid var(--ok);}
+.prog-card.st-warn{border-left:3px solid var(--warn);}
+.prog-card.st-full{border-left:3px solid var(--full);}
 .pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
-.pc-name{font-size:13px;font-weight:700;}
-.pc-time{font-size:11px;color:var(--t3);margin-top:2px;}
-.pc-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
-.badge-ok  {background:#c6f6d5;color:#276749;}
-.badge-warn{background:#fefcbf;color:#744210;}
-.badge-full{background:#fed7d7;color:#822727;}
-.cap-bar{background:#edf2f7;border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px;}
+.pc-name{font-size:15px;font-weight:700;color:var(--t1);}
+.pc-time{font-size:12px;color:var(--t3);margin-top:2px;}
+.pc-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;font-family:var(--mono);}
+.badge-ok  {background:var(--ok-dim);color:var(--ok);border:1px solid rgba(104,211,145,0.25);}
+.badge-warn{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(246,173,85,0.25);}
+.badge-full{background:var(--full-dim);color:var(--full);border:1px solid rgba(252,129,129,0.25);}
+.cap-bar{background:var(--s3);border-radius:4px;height:4px;overflow:hidden;margin-bottom:4px;}
 .cap-fill{height:100%;border-radius:4px;transition:width .6s;}
-.fill-ok  {background:var(--ok);}
+.fill-ok{background:var(--ok);}
 .fill-warn{background:var(--warn);}
 .fill-full{background:var(--full);}
-.cap-text{font-size:11px;color:var(--t3);}
+.cap-text{font-size:10px;color:var(--t3);font-family:var(--mono);}
 
 .instr-mini{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);cursor:pointer;}
-.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#667eea,#4299e1);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:700;flex-shrink:0;overflow:hidden;}
+.instr-mini:hover .instr-arrow{transform:translateX(3px);}
+.avatar{border-radius:50%;background:linear-gradient(135deg,#2d3748,#4a5568);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;flex-shrink:0;overflow:hidden;border:1px solid var(--border-lit);}
 .avatar img{width:100%;height:100%;object-fit:cover;}
+.instr-name-sm{font-size:12px;font-weight:700;color:var(--t2);}
+.instr-spec-sm{font-size:10px;color:var(--t3);margin-top:1px;}
+.instr-arrow{font-size:14px;color:var(--t3);transition:transform .2s;margin-left:auto;}
 
-.wait-toggle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--full);cursor:pointer;background:none;border:none;padding:8px 0 0;font-family:'Noto Sans KR',sans-serif;}
-.wait-form{display:none;margin-top:10px;padding:12px;background:#fff5f5;border-radius:8px;border:1px solid #fed7d7;}
+.wait-toggle{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--full);cursor:pointer;background:none;border:none;padding:8px 0 0;font-family:'Noto Sans KR',sans-serif;}
+.wait-form{display:none;margin-top:10px;padding:14px;background:rgba(252,129,129,0.06);border-radius:10px;border:1px solid rgba(252,129,129,0.2);}
 .wait-form.open{display:block;}
-.wf-title{font-size:12px;font-weight:700;color:var(--full);margin-bottom:10px;}
+.wf-title{font-size:10px;font-weight:700;color:var(--full);margin-bottom:10px;font-family:var(--mono);}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{padding:7px 16px;border-radius:20px;border:1px solid var(--border);font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--t2);font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.chip:hover{color:var(--t2);}
+.chip.on{background:var(--accent-dim);color:var(--accent);border-color:var(--border-lit);}
 
 .instr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.instr-card{background:white;border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;transition:box-shadow .2s,transform .2s;}
-.instr-card:hover{box-shadow:0 8px 20px rgba(0,0,0,.1);transform:translateY(-2px);}
-.instr-card .avatar{width:64px;height:64px;margin:0 auto 10px;font-size:22px;}
-.instr-card-name{font-size:13px;font-weight:700;margin-bottom:3px;}
-.instr-card-spec{font-size:11px;color:var(--primary);font-weight:600;margin-bottom:4px;}
-.instr-card-career{font-size:10px;color:var(--t3);}
+.instr-card{background:var(--s2);border:1px solid var(--border);border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;}
+.instr-card:hover{border-color:var(--border-lit);background:var(--s3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.instr-card-name{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:4px;}
+.instr-card-spec{font-size:12px;color:var(--accent);font-weight:600;margin-bottom:4px;}
+.instr-card-career{font-size:12px;color:var(--t3);}
 
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
-.modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.modal{background:var(--s1);border:1px solid var(--border);border-top:1px solid var(--border-lit);border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
 .modal-bg.open .modal{transform:translateY(0);}
-.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
-.modal-av{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#667eea,#4299e1);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:30px;color:white;font-weight:700;overflow:hidden;}
+.modal-handle{width:36px;height:3px;background:var(--s3);border-radius:2px;margin:0 auto 20px;}
+.modal-av{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#2d3748,#4a5568);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--accent);font-weight:700;overflow:hidden;border:1px solid var(--border-lit);}
 .modal-av img{width:100%;height:100%;object-fit:cover;}
-.modal-name{text-align:center;font-size:20px;font-weight:900;margin-bottom:4px;}
-.modal-spec{text-align:center;font-size:13px;color:var(--primary);font-weight:700;margin-bottom:16px;}
-.modal-career{background:#f7fafc;border-radius:8px;padding:12px 14px;font-size:13px;color:var(--t2);margin-bottom:12px;}
-.modal-intro{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:16px;}
-.modal-ptitle{font-size:12px;font-weight:700;color:var(--t3);margin-bottom:8px;}
-.prog-chip{display:inline-block;background:#ebf8ff;color:var(--primary);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;margin:3px;border:1px solid #bee3f8;}
+.modal-name{text-align:center;font-size:18px;font-weight:700;margin-bottom:3px;}
+.modal-spec{text-align:center;font-size:11px;color:var(--accent);font-weight:600;margin-bottom:14px;font-family:var(--mono);}
+.modal-career{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:12px;color:var(--t2);margin-bottom:10px;}
+.modal-intro{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px;}
+.modal-ptitle{font-size:10px;font-weight:700;color:var(--t3);margin-bottom:8px;font-family:var(--mono);letter-spacing:0.08em;}
+.prog-chip{display:inline-block;background:var(--accent-dim);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;margin:3px;border:1px solid var(--border-lit);font-family:var(--mono);}
+
+.wait-prog-item{background:var(--s2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;}
+.wait-prog-header{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;cursor:pointer;transition:background .2s;}
+.wait-prog-header:hover{background:var(--s3);}
+.wait-prog-name{font-size:15px;font-weight:700;color:var(--t1);}
+.wait-prog-time{font-size:12px;color:var(--t3);margin-top:3px;}
+.wait-count{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(246,173,85,0.25);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;font-family:var(--mono);}
+.wait-count.empty{background:var(--s3);color:var(--t3);border-color:transparent;}
+.wait-arrow{font-size:12px;color:var(--t3);transition:transform .2s;margin-left:8px;}
+.wait-arrow.open{transform:rotate(90deg);}
+.wait-prog-body{display:none;border-top:1px solid var(--border);padding:12px 15px;background:rgba(0,0,0,.15);}
+.wait-prog-body.open{display:block;}
 
 .field{margin-bottom:12px;}
-.field-label{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:6px;}
-input,select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fcfdfd;font-family:'Noto Sans KR',sans-serif;transition:border-color .2s;}
-input:focus,select:focus{outline:none;border-color:var(--primary);background:white;}
+.field-label{font-size:10px;font-weight:700;letter-spacing:0.08em;color:var(--t3);margin-bottom:6px;font-family:var(--mono);}
+input,select{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);color:var(--t1);font-family:'Noto Sans KR',sans-serif;font-size:15px;padding:12px 14px;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
+input::placeholder{color:var(--t3);font-size:13px;}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238899aa' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;cursor:pointer;}
+select option{background:var(--s2);}
 .field-row{display:flex;gap:8px;}
 .field-row input{flex:1;}
-.btn{width:100%;border:none;border-radius:8px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;margin-bottom:8px;}
-.btn-primary{background:var(--primary);color:white;}
-.btn-primary:hover{background:#2b6cb0;}
-.btn-danger{background:var(--full);color:white;}
-.btn-danger:hover{background:#c53030;}
-.btn-admin{background:var(--admin);color:white;}
-.btn-admin:hover{background:#b83280;}
-.btn-sec{background:transparent;color:var(--t2);border:1px solid var(--border);}
-.btn-sec:hover{background:#f7fafc;}
 
-.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;}
-.tbl th,.tbl td{border:1px solid var(--border);padding:8px 6px;text-align:center;}
-.tbl th{background:#f8fafc;font-weight:700;}
+.radio-group{display:flex;gap:8px;}
+.radio-opt{flex:1;position:relative;}
+.radio-opt input[type="radio"]{position:absolute;opacity:0;width:0;height:0;}
+.radio-opt label{display:flex;align-items:center;justify-content:center;padding:12px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);cursor:pointer;font-size:13px;color:var(--t2);transition:all .2s;font-weight:500;}
+.radio-opt input[type="radio"]:checked+label{background:var(--accent-dim);border-color:var(--border-lit);color:var(--accent);}
 
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-.chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:600;cursor:pointer;background:white;color:var(--t2);font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
-.chip.on{background:var(--primary);color:white;border-color:var(--primary);}
+.btn-primary{width:100%;padding:16px;background:linear-gradient(180deg,#2d6a9f 0%,#1a4a72 100%);border:1px solid rgba(99,179,237,0.5);border-radius:var(--r);color:#e8f4fd;font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:16px;box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08);}
+.btn-primary:hover{background:linear-gradient(180deg,#3a7ec4 0%,#1e5a8e 100%);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 20px rgba(99,179,237,.15);}
+.btn-primary:active{transform:scale(0.98);}
+.btn-danger{background:linear-gradient(180deg,#9b2c2c 0%,#742020 100%);border-color:rgba(252,129,129,.5);}
+.btn-danger:hover{background:linear-gradient(180deg,#c53030 0%,#9b2c2c 100%);}
+.btn-admin{background:linear-gradient(180deg,#553c7b 0%,#3a2855 100%);border-color:rgba(183,148,246,.4);}
+.btn-admin:hover{background:linear-gradient(180deg,#6b4d9a 0%,#553c7b 100%);}
+.btn-sec{width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--t3);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-sec:hover{background:var(--s2);color:var(--t2);}
 
-.rbar{background:#ebf8ff;border:1px solid #bee3f8;border-radius:8px;padding:8px 12px;font-size:11px;color:var(--primary);font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.rprog{flex:1;height:4px;background:#bee3f8;border-radius:2px;overflow:hidden;}
-.rfill{height:100%;background:var(--primary);border-radius:2px;transition:width 1s linear;}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl th,.tbl td{border:1px solid var(--border);padding:10px;text-align:center;color:var(--t2);font-size:13px;}
+.tbl th{background:var(--s2);font-weight:700;color:var(--t2);font-size:13px;}
 
-.admin-badge{display:inline-block;background:var(--admin);color:white;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;margin-bottom:14px;}
+.member-list{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.member-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--s2);border:1px solid var(--border);border-radius:10px;}
+.member-num{width:24px;height:24px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--border-lit);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent);font-weight:700;font-family:var(--mono);flex-shrink:0;}
+.member-name{font-size:13px;font-weight:600;color:var(--t1);}
 
-.wait-prog-item{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
-.wait-prog-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;background:white;transition:background .2s;}
-.wait-prog-header:hover{background:#f7fafc;}
-.wait-prog-header-left{display:flex;flex-direction:column;gap:3px;}
-.wait-prog-header-name{font-size:13px;font-weight:700;}
-.wait-prog-header-time{font-size:11px;color:var(--t3);}
-.wait-prog-header-right{display:flex;align-items:center;gap:8px;}
-.wait-count-badge{background:#ebf8ff;color:var(--primary);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
-.wait-count-badge.has-wait{background:#fff3cd;color:#856404;}
-.wait-arrow{font-size:14px;color:var(--t3);transition:transform .2s;}
-.wait-arrow.open{transform:rotate(90deg);}
-.wait-prog-body{display:none;border-top:1px solid var(--border);padding:12px 16px;background:#fafafa;}
-.wait-prog-body.open{display:block;}
-.teacher-tab{display:none;}
-.att-list{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
-.att-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:white;border:1px solid var(--border);border-radius:8px;}
-.att-name{font-size:14px;font-weight:700;}
-.att-btns{display:flex;gap:6px;}
-.att-btn{width:44px;height:36px;border:none;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;background:#edf2f7;color:var(--t3);}
-.att-btn.selected-O{background:#c6f6d5;color:#276749;}
-.att-btn.selected-X{background:#fed7d7;color:#822727;}
-.att-stat{display:flex;gap:10px;margin-top:14px;padding:14px;background:#f7fafc;border-radius:8px;}
-.att-stat-item{flex:1;text-align:center;}
-.att-stat-num{font-size:22px;font-weight:900;}
-.att-stat-label{font-size:11px;color:var(--t3);margin-top:2px;}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a202c;color:white;padding:11px 22px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;transition:transform .3s;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.ot-tab-row{display:flex;gap:6px;margin-bottom:14px;}
+.ot-tab{flex:1;padding:9px;background:var(--s2);border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:600;color:var(--t3);cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans KR',sans-serif;}
+.ot-tab.on{background:var(--accent-dim);color:var(--accent);border-color:var(--border-lit);}
+
+.admin-badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:#b794f4;background:rgba(183,148,246,.1);border:1px solid rgba(183,148,246,.3);border-radius:999px;padding:3px 10px;margin-bottom:12px;}
+
+@media(min-width:600px){
+    .container{margin:28px auto 80px;}
+    .card{padding:36px 32px;border-radius:28px;}
+    .card-title{font-size:22px;}
+    .card-sub{font-size:14px;}
+    .sg{grid-template-columns:90px 1fr 1fr;}
+    .sg-head{font-size:15px;padding:13px 10px;}
+    .sg-time{font-size:14px;padding:12px 8px;}
+    .sg-cell{font-size:13px;padding:14px 10px;}
+    .cap-badge{font-size:12px;padding:2px 10px;}
+    .pc-name{font-size:16px;}
+    .pc-time{font-size:13px;}
+    .pc-badge{font-size:12px;padding:4px 14px;}
+    .prog-card{padding:18px 22px;border-radius:16px;}
+    .nav-btn{font-size:14px;padding:10px 18px;}
+    .loc-label{font-size:17px;}
+    .prog-list{gap:10px;}
+    .instr-grid{grid-template-columns:1fr 1fr 1fr 1fr;}
+    .instr-card{padding:20px 16px;}
+    .instr-card-name{font-size:14px;}
+    .instr-card-spec{font-size:12px;}
+    .instr-card-career{font-size:11px;}
+    .wait-prog-name{font-size:15px;}
+    .wait-prog-time{font-size:12px;}
+    .tbl th{font-size:12px;}
+    .tbl td{font-size:13px;padding:10px;}
+    .btn-primary{font-size:15px;padding:16px;}
+    .field-label{font-size:12px;}
+    input,select{font-size:15px;padding:13px 15px;}
+    .nav-bar{padding:14px 24px 0;}
+    .nav-brand{font-size:12px;}
+}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--s3);border:1px solid var(--border-lit);color:var(--t1);padding:11px 22px;border-radius:10px;font-size:12px;font-weight:600;z-index:9999;transition:transform .3s;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.5);}
 .toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>🏋️ 피트니스 센터</h1>
-    <p>GX 프로그램 현황 및 대기 신청</p>
-    <div class="sync">
-        <div class="sync-dot" id="syncDot"></div>
-        <span id="syncText">로딩중...</span>
+<div class="nav-bar">
+    <div class="nav-brand">반정아이파크캐슬5단지 커뮤니티</div>
+    <div class="nav-inner">
+        <button class="nav-btn on"     onclick="goTab('s-schedule',   this)">시간표</button>
+        <button class="nav-btn"        onclick="goTab('s-programs',   this)">현황</button>
+        <button class="nav-btn"        onclick="goTab('s-instructors',this)">강사</button>
+        <button class="nav-btn"        onclick="goTab('s-waitlist',   this)">대기</button>
+        <button class="nav-btn"        onclick="goTab('s-ot',         this)">OT 신청</button>
+        <button class="nav-btn"        onclick="askTeacher()">강사 로그인</button>
+        <button class="nav-btn hidden" id="teacherTab" onclick="goTab('s-teacher',this)">수강명단</button>
+        <button class="nav-btn"        onclick="askAdmin()">관리자</button>
+        <button class="nav-btn hidden" id="adminTab" onclick="goTab('s-admin',this)">관리</button>
     </div>
 </div>
 
-<div class="tabs">
-    <button class="tab on"        onclick="goTab('s-schedule',   this)">📅 시간표</button>
-    <button class="tab"           onclick="goTab('s-programs',   this)">📋 현황</button>
-    <button class="tab"           onclick="goTab('s-instructors',this)">👨‍🏫 강사</button>
-    <button class="tab"           onclick="goTab('s-waitlist',   this)">📝 대기</button>
-    <button class="tab"           onclick="askTeacher()">👨‍🏫 강사로그인</button>
-    <button class="tab teacher-tab" id="teacherTab" onclick="goTab('s-teacher',this)">📋 출석부</button>
-    <button class="tab"           onclick="askAdmin()">🔑 관리자</button>
-    <button class="tab admin-tab" id="adminTab" onclick="goTab('s-admin',this)">⚙️ 관리</button>
-</div>
+<div class="container">
 
 <div id="s-schedule" class="section on">
     <div class="card">
-        <div class="card-title">📅 주간 시간표</div>
-        <div class="card-sub">🟢여유 &nbsp;🟡임박 &nbsp;🔴마감 · 셀 누르면 해당 종목으로 이동</div>
-        <div class="rbar">
-            <span>🔄 자동 새로고침</span>
+        <div class="card-label">주간 시간표</div>
+        <div class="card-title">주간 시간표</div>
+        <div class="card-sub">셀을 누르면 해당 종목 상세로 이동합니다</div>
+        <div class="sync-bar">
+            <div class="sync-dot" id="syncDot"></div>
+            <span id="syncText">로딩중...</span>
             <div class="rprog"><div class="rfill" id="rfill" style="width:100%"></div></div>
             <span id="rcount">30s</span>
         </div>
-        <div class="loc-label loc-gym">🏋️ 헬스장 내 GX</div>
+        <div class="loc-label">헬스장 GX</div>
         <div class="sg-wrap"><div class="sg" id="gym-grid">
             <div class="sg-head">시간</div>
             <div class="sg-head">월·수·금</div>
             <div class="sg-head">화·목</div>
         </div></div>
-        <div class="loc-label loc-sports" style="margin-top:18px;">🏟️ 체육관 내 GX</div>
+        <div class="loc-label" style="margin-top:18px;">체육관 GX</div>
         <div class="sg-wrap"><div class="sg" id="sports-grid">
             <div class="sg-head">시간</div>
             <div class="sg-head">월·수 / 금</div>
@@ -219,13 +273,14 @@ input:focus,select:focus{outline:none;border-color:var(--primary);background:whi
 
 <div id="s-programs" class="section">
     <div class="card">
-        <div class="card-title">📋 전체 종목 현황</div>
-        <div class="card-sub">마감 종목은 하단에서 대기 신청 가능해요</div>
+        <div class="card-label">종목 현황</div>
+        <div class="card-title">전체 종목 현황</div>
+        <div class="card-sub">마감 종목은 하단에서 대기 신청이 가능합니다</div>
         <div class="chips">
             <button class="chip on" onclick="filterProgs('all',this)">전체</button>
-            <button class="chip"    onclick="filterProgs('gym',this)">헬스장 GX</button>
-            <button class="chip"    onclick="filterProgs('sports',this)">체육관 GX</button>
-            <button class="chip"    onclick="filterProgs('full',this)">마감만</button>
+            <button class="chip"    onclick="filterProgs('gym',this)">헬스장</button>
+            <button class="chip"    onclick="filterProgs('sports',this)">체육관</button>
+            <button class="chip"    onclick="filterProgs('full',this)">마감</button>
         </div>
         <div class="prog-list" id="prog-list"></div>
     </div>
@@ -233,26 +288,66 @@ input:focus,select:focus{outline:none;border-color:var(--primary);background:whi
 
 <div id="s-instructors" class="section">
     <div class="card">
-        <div class="card-title">👨‍🏫 강사 소개</div>
-        <div class="card-sub">강사를 선택하면 상세 프로필을 볼 수 있어요</div>
+        <div class="card-label">강사 소개</div>
+        <div class="card-title">강사 소개</div>
+        <div class="card-sub">강사를 선택하면 상세 프로필을 확인할 수 있습니다</div>
         <div class="instr-grid" id="instr-grid"></div>
     </div>
 </div>
 
 <div id="s-waitlist" class="section">
     <div class="card">
-        <div class="card-title">📝 대기자 명단</div>
-        <div class="card-sub">종목을 선택하면 해당 대기자 명단을 볼 수 있어요</div>
+        <div class="card-label">대기 명단</div>
+        <div class="card-title">대기자 명단</div>
+        <div class="card-sub">종목별 대기자 현황입니다</div>
         <div id="wait-prog-list"></div>
-        <button class="btn btn-sec" style="margin-top:8px;" onclick="fetchData()">🔄 새로고침</button>
+        <button class="btn-sec" onclick="fetchData()">새로고침</button>
+    </div>
+</div>
+
+<div id="s-ot" class="section">
+    <div class="card">
+        <div class="card-label">OT 신청</div>
+        <div class="card-title">OT 신청</div>
+        <div class="card-sub">오전 / 오후 중 원하시는 시간을 선택 후 신청해 주세요</div>
+        <div class="field">
+            <div class="field-label">시간 선택</div>
+            <div class="radio-group">
+                <div class="radio-opt">
+                    <input type="radio" name="ot-time" id="ot-am" value="오전" checked>
+                    <label for="ot-am">오전</label>
+                </div>
+                <div class="radio-opt">
+                    <input type="radio" name="ot-time" id="ot-pm" value="오후">
+                    <label for="ot-pm">오후</label>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-label">동 · 호수</div>
+            <div class="field-row">
+                <input type="text" id="ot-dong" placeholder="동  예) 101">
+                <input type="text" id="ot-ho"   placeholder="호수  예) 1502">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-label">이름</div>
+            <input type="text" id="ot-name" placeholder="이름을 입력하세요">
+        </div>
+        <div class="field">
+            <div class="field-label">전화번호</div>
+            <input type="tel" id="ot-phone" placeholder="010-0000-0000">
+        </div>
+        <button class="btn-primary" onclick="submitOT()">신청하기</button>
+        <button class="btn-sec" onclick="resetOT()">초기화</button>
     </div>
 </div>
 
 <div id="s-teacher" class="section">
     <div class="card">
-        <div class="admin-badge" style="background:#667eea;">강사 전용</div>
-        <div class="card-title" style="margin-bottom:6px;">📋 수강생 명단</div>
-        <div class="card-sub">종목을 선택하면 수강생 명단이 나와요</div>
+        <div class="card-label">강사 전용</div>
+        <div class="card-title">수강생 명단</div>
+        <div class="card-sub">종목을 선택하면 수강생 명단이 나옵니다</div>
         <div class="field">
             <div class="field-label">종목 선택</div>
             <select id="att-prog-sel" onchange="loadMembers()"></select>
@@ -263,591 +358,340 @@ input:focus,select:focus{outline:none;border-color:var(--primary);background:whi
 
 <div id="s-admin" class="section">
     <div class="card">
-        <div class="admin-badge">강사 / 관리자 전용</div>
-        <div class="card-title" style="margin-bottom:6px;">인원 수동 수정</div>
-        <div class="card-sub">홈노크타운 취소 시 여기서 수정하거나 구글시트 current열 직접 수정</div>
+        <div class="admin-badge">관리자 전용</div>
+        <div class="card-title" style="margin-bottom:6px;">정원 수정</div>
+        <div class="card-sub">홈노크타운 취소 발생 시 current 수정</div>
         <div class="field">
-            <div class="field-label">종목 선택</div>
+            <div class="field-label">종목</div>
             <select id="admin-prog-sel" onchange="onAdminProgChange()"></select>
         </div>
         <div class="field">
             <div class="field-label">현재 수강 인원</div>
             <input type="number" id="admin-current" min="0">
         </div>
-        <button class="btn btn-admin" onclick="adminSave()">💾 저장</button>
-        <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
-        <div class="card-title" style="font-size:14px;margin-bottom:10px;">전체 대기자</div>
+        <button class="btn-primary btn-admin" onclick="adminSave()">저장</button>
+        <div class="divider"></div>
+        <div class="card-title" style="font-size:15px;margin-bottom:12px;">OT 신청 목록</div>
+        <div class="ot-tab-row">
+            <button class="ot-tab on" onclick="filterOT('전체',this)">전체</button>
+            <button class="ot-tab"    onclick="filterOT('오전',this)">오전</button>
+            <button class="ot-tab"    onclick="filterOT('오후',this)">오후</button>
+        </div>
         <table class="tbl">
-            <thead><tr><th>일시</th><th>프로그램</th><th>동·호수</th><th>상태</th></tr></thead>
+            <thead><tr><th>시간</th><th>동·호수</th><th>이름</th><th>연락처</th></tr></thead>
+            <tbody id="ot-admin-body"></tbody>
+        </table>
+        <div class="divider"></div>
+        <div class="card-title" style="font-size:15px;margin-bottom:12px;">전체 대기자</div>
+        <table class="tbl">
+            <thead><tr><th>#</th><th>프로그램</th><th>동·호수</th><th>상태</th></tr></thead>
             <tbody id="admin-tbody"></tbody>
         </table>
-        <button class="btn btn-admin" style="margin-top:12px;" onclick="fetchData()">🔄 새로고침</button>
-        <button class="btn btn-sec" onclick="logoutAdmin()">로그아웃</button>
+        <button class="btn-primary btn-admin" style="margin-top:12px;" onclick="fetchData()">새로고침</button>
+        <button class="btn-sec" onclick="logoutAdmin()">로그아웃</button>
     </div>
+</div>
+
 </div>
 
 <div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
     <div class="modal">
         <div class="modal-handle"></div>
-        <div class="modal-av" id="modal-av"></div>
+        <div class="modal-av"     id="modal-av"></div>
         <div class="modal-name"   id="modal-name"></div>
         <div class="modal-spec"   id="modal-spec"></div>
         <div class="modal-career" id="modal-career"></div>
         <div class="modal-intro"  id="modal-intro"></div>
         <div class="modal-ptitle">담당 프로그램</div>
         <div id="modal-progs"></div>
-        <button class="btn btn-primary" style="margin-top:16px;" onclick="closeModal()">닫기</button>
+        <button class="btn-primary" style="margin-top:16px;" onclick="closeModal()">닫기</button>
     </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbw5pDr6MFs4n4NPB9QvO3WazyT8uU1PWU8QuKvM9Q7EurdRc_y0CteZ-Q7Rv0UWc7W6/exec';
+const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycby0R0AYETQMuqVvxaINXFl5yjmLXa_N7Zy-mTVOCOEWL-lWzwKsxOYvtCLPyYJ6W1ht/exec';
 const ADMIN_PW    = '1234';
-const REFRESH_SEC = 30;
+const TEACHER_PW  = '5678';
+const REFRESH_SEC = 10;
 
-let programs    = [];
-let instructors = [];
-let waitlist    = [];
-let isAdmin     = false;
-let progFilter  = 'all';
-let cd, cdLeft;
+let programs=[], instructors=[], waitlist=[], otList=[];
+let isAdmin=false, progFilter='all', cd, cdLeft;
 
-// ── 상태값 계산 ──
-function getStatus(p) {
-    const cur = Number(p.current);
-    const max = Number(p.max);
-    if (!max) return 'ok';
-    if (cur >= max) return 'full';
-    if (cur / max >= 0.8) return 'warn';
-    return 'ok';
-}
-function getLeft(p) { return Math.max(0, Number(p.max) - Number(p.current)); }
+function getStatus(p){const c=Number(p.current),m=Number(p.max);if(!m)return'ok';if(c>=m)return'full';if(c/m>=0.8)return'warn';return'ok';}
+function getLeft(p){return Math.max(0,Number(p.max)-Number(p.current));}
 
-// ── 토스트 ──
 let tt;
-function toast(msg) {
-    clearTimeout(tt);
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
-    tt = setTimeout(() => el.classList.remove('show'), 2800);
-}
+function toast(msg){clearTimeout(tt);const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');tt=setTimeout(()=>el.classList.remove('show'),2800);}
 
-// ── 탭 전환 ──
-function goTab(id, btn) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+function goTab(id,btn){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
     document.getElementById(id).classList.add('on');
-    if (btn) btn.classList.add('on');
-    // programs가 로드된 후에만 렌더링
-    if (programs.length > 0) {
-        if (id === 's-schedule')    renderSchedule();
-        if (id === 's-programs')    renderProgs(progFilter);
-        if (id === 's-instructors') renderInstrs();
-        if (id === 's-waitlist')    renderWait();
-        if (id === 's-admin')       renderAdmin();
+    if(btn)btn.classList.add('on');
+    if(programs.length){
+        if(id==='s-schedule')renderSchedule();
+        if(id==='s-programs')renderProgs(progFilter);
+        if(id==='s-instructors')renderInstrs();
+        if(id==='s-waitlist')renderWait();
+        if(id==='s-admin')renderAdmin();
     }
 }
 
-// ── 데이터 로드 ──
-function fetchData() {
+function fetchData(){
     setSyncState('loading');
-    const cb = 'gxCb' + Date.now();
-    const sc = document.createElement('script');
-    window[cb] = function(data) {
-        delete window[cb];
-        sc.remove();
-        if (data && data.success) {
-            // current, max 숫자 변환 확실히
-            programs    = (data.programs || []).map(p => ({
-                ...p,
-                current: Number(p.current),
-                max:     Number(p.max)
-            }));
-            instructors = data.instructors || [];
-            // 대기자: 시트 데이터 우선, 로컬에만 있는 것 보존
-            // 구글시트 데이터로 완전히 덮어쓰기
-            waitlist = data.waitlist || [];
+    const cb='gxCb'+Date.now(), sc=document.createElement('script');
+    window[cb]=function(data){
+        delete window[cb];sc.remove();
+        if(data&&data.success){
+            programs=(data.programs||[]).map(p=>({...p,current:Number(p.current),max:Number(p.max)}));
+            instructors=data.instructors||[];
+            waitlist=data.waitlist||[];
+            otList=data.otlist||[];
             setSyncState('ok');
-        } else {
-            setSyncState('err');
-        }
-        renderAll();
-        startCd();
-        // 현재 보고 있는 탭 강제 재렌더
-        const activeSection = document.querySelector('.section.on');
-        if (activeSection) {
-            const id = activeSection.id;
-            if (id === 's-schedule')    renderSchedule();
-            if (id === 's-programs')    renderProgs(progFilter);
-            if (id === 's-instructors') renderInstrs();
-            if (id === 's-waitlist')    renderWait();
-            if (id === 's-admin')       renderAdmin();
-        }
+        }else{setSyncState('err');}
+        renderAll();startCd();
     };
-    sc.onerror = function() {
-        delete window[cb];
-        sc.remove();
-        setSyncState('err');
-        renderAll();
-        startCd();
-    };
-    sc.src = SCRIPT_URL + '?callback=' + cb + '&t=' + Date.now();
+    sc.onerror=function(){delete window[cb];sc.remove();setSyncState('err');renderAll();startCd();};
+    sc.src=SCRIPT_URL+'?callback='+cb+'&t='+Date.now();
     document.body.appendChild(sc);
 }
 
-function setSyncState(s) {
-    const dot  = document.getElementById('syncDot');
-    const text = document.getElementById('syncText');
-    if (s === 'loading') { dot.style.background = '#f6ad55'; text.textContent = '동기화 중...'; }
-    else if (s === 'ok') { dot.style.background = '#68d391'; text.textContent = '연결됨 · ' + new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}); }
-    else { dot.style.background = '#fc8181'; text.textContent = '연결 오류'; }
+function setSyncState(s){
+    const dot=document.getElementById('syncDot'),txt=document.getElementById('syncText');
+    if(s==='loading'){dot.style.background='#f6ad55';txt.textContent='동기화 중...';}
+    else if(s==='ok'){dot.style.background='#68d391';txt.textContent='연결됨 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});}
+    else{dot.style.background='#fc8181';txt.textContent='연결 오류';}
 }
 
-function startCd() {
-    clearInterval(cd);
-    cdLeft = REFRESH_SEC;
-    updateCd();
-    cd = setInterval(() => { cdLeft--; updateCd(); if (cdLeft <= 0) fetchData(); }, 1000);
+function startCd(){
+    clearInterval(cd);cdLeft=REFRESH_SEC;updateCd();
+    cd=setInterval(()=>{cdLeft--;updateCd();if(cdLeft<=0)fetchData();},1000);
 }
-function updateCd() {
-    const f = document.getElementById('rfill');
-    const c = document.getElementById('rcount');
-    if (f) f.style.width = (cdLeft / REFRESH_SEC * 100) + '%';
-    if (c) c.textContent = cdLeft + 's';
+function updateCd(){
+    const f=document.getElementById('rfill'),c=document.getElementById('rcount');
+    if(f)f.style.width=(cdLeft/REFRESH_SEC*100)+'%';
+    if(c)c.textContent=cdLeft+'s';
 }
 
-function renderAll() {
+function renderAll(){
+    const active=document.querySelector('.section.on');
+    const id=active?active.id:'s-schedule';
     renderSchedule();
-    renderProgs(progFilter);
-    renderInstrs();
-    renderWait();
-    if (isAdmin) renderAdmin();
+    if(id==='s-programs')renderProgs(progFilter);
+    if(id==='s-instructors')renderInstrs();
+    if(id==='s-waitlist')renderWait();
+    if(id==='s-admin')renderAdmin();
 }
 
-// ── 시간표 셀 ──
-function makeCell(pid, fn) {
-    if (!pid || pid === 'null') return `<div class="sg-cell sg-empty">–</div>`;
-    const p = programs.find(x => x.id === pid);
-    if (!p) return `<div class="sg-cell sg-empty">–</div>`;
-    const s = getStatus(p);
-    return `<div class="sg-cell st-${s}" onclick="${fn}">
-        <div>${p.name}</div>
-        <span class="cap-badge">${p.current}/${p.max}</span>
-    </div>`;
+function makeCell(pid,fn){
+    if(!pid||pid==='null')return`<div class="sg-cell sg-empty">—</div>`;
+    const p=programs.find(x=>x.id===pid);
+    if(!p)return`<div class="sg-cell sg-empty">—</div>`;
+    const s=getStatus(p);
+    return`<div class="sg-cell st-${s}" onclick="${fn}"><div>${p.name}</div><span class="cap-badge">${p.current}/${p.max}</span></div>`;
 }
 
-function renderSchedule() {
-    const gymRows = [
-        {time:'09:00', mwf:'p1',  tth:'p3' },
-        {time:'10:00', mwf:'p2',  tth:'p4' },
-        {time:'11:00', mwf:null,  tth:'p5' },
-        {time:'17:00', mwf:null,  tth:'p6' },
-        {time:'20:00', mwf:'p7',  tth:'p9' },
-        {time:'21:00', mwf:'p8',  tth:'p10'},
+function renderSchedule(){
+    const gymRows=[
+        {time:'09:00',mwf:'p1',tth:'p3'},{time:'10:00',mwf:'p2',tth:'p4'},
+        {time:'11:00',mwf:null,tth:'p5'},{time:'17:00',mwf:null,tth:'p6'},
+        {time:'20:00',mwf:'p7',tth:'p9'},{time:'21:00',mwf:'p8',tth:'p10'},
     ];
-    const g1 = document.getElementById('gym-grid');
-    g1.querySelectorAll('.sg-time,.sg-cell,.sg-empty').forEach(e => e.remove());
-    gymRows.forEach(r => {
-        g1.insertAdjacentHTML('beforeend',
-            `<div class="sg-time">${r.time}</div>
-             ${makeCell(r.mwf, `goProgram('${r.mwf}')`)}
-             ${makeCell(r.tth, `goProgram('${r.tth}')`)}`);
-    });
+    const g1=document.getElementById('gym-grid');
+    g1.querySelectorAll('.sg-time,.sg-cell,.sg-empty').forEach(e=>e.remove());
+    gymRows.forEach(r=>g1.insertAdjacentHTML('beforeend',`<div class="sg-time">${r.time}</div>${makeCell(r.mwf,`goProgram('${r.mwf}')`)}${makeCell(r.tth,`goProgram('${r.tth}')`)}`));
 
-    const sportsRows = [
-        {time:'17:00\n월·수', c1:'p11', c2:null },
-        {time:'17:00\n금',    c1:'p14', c2:null },
-        {time:'18:00\n월·수', c1:'p12', c2:'p15'},
-        {time:'18:00\n금',    c1:'p17', c2:null },
-        {time:'19:00\n수',    c1:'p13', c2:'p16'},
-        {time:'19:00\n금',    c1:'p18', c2:null },
+    const sportsRows=[
+        {time:'17:00\n월·수',c1:'p11',c2:null},{time:'17:00\n금',c1:'p14',c2:null},
+        {time:'18:00\n월·수',c1:'p12',c2:'p15'},{time:'18:00\n금',c1:'p17',c2:null},
+        {time:'19:00\n수',c1:'p13',c2:'p16'},{time:'19:00\n금',c1:'p18',c2:null},
     ];
-    const g2 = document.getElementById('sports-grid');
-    g2.querySelectorAll('.sg-time,.sg-cell,.sg-empty').forEach(e => e.remove());
-    sportsRows.forEach(r => {
-        g2.insertAdjacentHTML('beforeend',
-            `<div class="sg-time">${r.time}</div>
-             ${makeCell(r.c1, `goProgram('${r.c1}')`)}
-             ${makeCell(r.c2, `goProgram('${r.c2}')`)}`);
-    });
+    const g2=document.getElementById('sports-grid');
+    g2.querySelectorAll('.sg-time,.sg-cell,.sg-empty').forEach(e=>e.remove());
+    sportsRows.forEach(r=>g2.insertAdjacentHTML('beforeend',`<div class="sg-time">${r.time}</div>${makeCell(r.c1,`goProgram('${r.c1}')`)}${makeCell(r.c2,`goProgram('${r.c2}')`)}`));
 }
 
-function goProgram(pid) {
-    if (!pid || pid === 'null') return;
-    const btn = document.querySelectorAll('.tab')[1];
-    goTab('s-programs', btn);
-    progFilter = 'all';
-    document.querySelectorAll('.chip').forEach((c,i) => c.classList.toggle('on', i===0));
+function goProgram(pid){
+    if(!pid||pid==='null')return;
+    const btn=document.querySelectorAll('.nav-btn')[1];
+    goTab('s-programs',btn);
+    progFilter='all';
+    document.querySelectorAll('.chip').forEach((c,i)=>c.classList.toggle('on',i===0));
     renderProgs('all');
-    setTimeout(() => {
-        const el = document.getElementById('p-' + pid);
-        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-    }, 100);
+    setTimeout(()=>{const el=document.getElementById('p-'+pid);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},100);
 }
 
-// ── 종목 현황 ──
-function renderProgs(filter) {
-    progFilter = filter;
-    const container = document.getElementById('prog-list');
-    container.innerHTML = '';
+function renderProgs(filter){
+    progFilter=filter;
+    const container=document.getElementById('prog-list');
+    container.innerHTML='';
+    let list=[...programs];
+    if(filter==='gym')list=list.filter(p=>p.location==='gym');
+    if(filter==='sports')list=list.filter(p=>p.location==='sports');
+    if(filter==='full')list=list.filter(p=>getStatus(p)==='full');
+    if(!list.length){container.innerHTML=`<div style="text-align:center;color:var(--t3);padding:40px;font-size:13px;">해당하는 종목이 없습니다</div>`;return;}
 
-    let list = [...programs];
-    if (filter === 'gym')    list = list.filter(p => p.location === 'gym');
-    if (filter === 'sports') list = list.filter(p => p.location === 'sports');
-    if (filter === 'full')   list = list.filter(p => getStatus(p) === 'full');
-
-    if (!list.length) {
-        container.innerHTML = `<div style="text-align:center;color:var(--t3);padding:40px;">해당하는 종목이 없습니다</div>`;
-        return;
-    }
-
-    let lastLoc = null;
-    list.forEach(p => {
-        if (filter === 'all' && p.location !== lastLoc) {
-            const lb = document.createElement('div');
-            lb.className = 'loc-label ' + (p.location === 'gym' ? 'loc-gym' : 'loc-sports');
-            lb.textContent = p.location === 'gym' ? '🏋️ 헬스장 내 GX' : '🏟️ 체육관 내 GX';
-            container.appendChild(lb);
-            lastLoc = p.location;
+    let lastLoc=null;
+    list.forEach(p=>{
+        if(filter==='all'&&p.location!==lastLoc){
+            const lb=document.createElement('div');
+            lb.className='loc-label';
+            lb.textContent=p.location==='gym'?'헬스장 내 GX':'체육관 내 GX';
+            container.appendChild(lb);lastLoc=p.location;
         }
-
-        const s   = getStatus(p);
-        const l   = getLeft(p);
-        const pct = Number(p.max) > 0 ? Math.round(Number(p.current) / Number(p.max) * 100) : 0;
-        const instr = instructors.find(i => i.id === p.instructor_id);
-
-        const badgeCls  = s === 'full' ? 'badge-full' : s === 'warn' ? 'badge-warn' : 'badge-ok';
-        const badgeText = s === 'full' ? '🔴 마감' : s === 'warn' ? `🟡 잔여 ${l}명` : `🟢 잔여 ${l}명`;
-
-        const instrHtml = instr ? `
-            <div class="instr-mini" onclick="openModal('${instr.id}')">
-                <div class="avatar" style="width:36px;height:36px;font-size:14px;">
-                    ${instr.photo_url ? `<img src="${instr.photo_url}" alt="">` : instr.name.charAt(0)}
-                </div>
-                <div style="flex:1">
-                    <div style="font-size:12px;font-weight:700;color:var(--t2)">${instr.name}</div>
-                    <div style="font-size:11px;color:var(--t3)">${instr.specialty} · ${instr.career}</div>
-                </div>
-                <span style="color:var(--t3)">›</span>
-            </div>` : '';
-
-        const waitHtml = s === 'full' ? `
-            <button class="wait-toggle" onclick="toggleWait('wf-${p.id}')">➕ 대기 신청하기</button>
-            <div class="wait-form" id="wf-${p.id}">
-                <div class="wf-title">📝 ${p.name} (${p.days} ${p.time})</div>
-                <div class="field">
-                    <div class="field-label">동·호수</div>
-                    <div class="field-row">
-                        <input type="text" id="dong-${p.id}" placeholder="동 예) 101">
-                        <input type="text" id="ho-${p.id}"   placeholder="호수 예) 1502">
-                    </div>
-                </div>
-                <button class="btn btn-danger" onclick="submitWait('${p.id}','${p.name} (${p.days} ${p.time})')">대기 등록</button>
-            </div>` : '';
-
-        const div = document.createElement('div');
-        div.className = `prog-card st-${s}`;
-        div.id = 'p-' + p.id;
-        div.innerHTML = `
-            <div class="pc-top">
-                <div>
-                    <div class="pc-name">${p.name}</div>
-                    <div class="pc-time">${p.days} · ${p.time}</div>
-                </div>
-                <span class="pc-badge ${badgeCls}">${badgeText}</span>
-            </div>
-            <div class="cap-bar"><div class="cap-fill fill-${s}" style="width:${pct}%"></div></div>
-            <div class="cap-text">${p.current} / ${p.max}명 수강 중</div>
-            ${instrHtml}
-            ${waitHtml}
-        `;
+        const s=getStatus(p),l=getLeft(p),pct=Number(p.max)>0?Math.round(Number(p.current)/Number(p.max)*100):0;
+        const instr=instructors.find(i=>i.id===p.instructor_id);
+        const badgeCls=s==='full'?'badge-full':s==='warn'?'badge-warn':'badge-ok';
+        const badgeText=s==='full'?'FULL':`잔여 ${l}명`;
+        const instrHtml=instr?`<div class="instr-mini" onclick="openModal('${instr.id}')"><div class="avatar" style="width:32px;height:32px;font-size:12px;">${instr.photo_url?`<img src="${instr.photo_url}" alt="">`:instr.name.charAt(0)}</div><div style="flex:1"><div class="instr-name-sm">${instr.name}</div><div class="instr-spec-sm">${instr.specialty} · ${instr.career}</div></div><span class="instr-arrow">›</span></div>`:'';
+        const waitHtml=s==='full'?`<button class="wait-toggle" onclick="toggleWait('wf-${p.id}')">+ 대기 신청</button><div class="wait-form" id="wf-${p.id}"><div class="wf-title">${p.name} · ${p.days} ${p.time}</div><div class="field"><div class="field-label">동 · 호수</div><div class="field-row"><input type="text" id="dong-${p.id}" placeholder="동  예) 101"><input type="text" id="ho-${p.id}" placeholder="호수  예) 1502"></div></div><button class="btn-primary btn-danger" onclick="submitWait('${p.id}','${p.name} (${p.days} ${p.time})')">대기 등록</button></div>`:'';
+        const div=document.createElement('div');
+        div.className=`prog-card st-${s}`;div.id='p-'+p.id;
+        div.innerHTML=`<div class="pc-top"><div><div class="pc-name">${p.name}</div><div class="pc-time">${p.days} · ${p.time}</div></div><span class="pc-badge ${badgeCls}">${badgeText}</span></div><div class="cap-bar"><div class="cap-fill fill-${s}" style="width:${pct}%"></div></div><div class="cap-text">${p.current} / ${p.max}</div>${instrHtml}${waitHtml}`;
         container.appendChild(div);
     });
 }
 
-function filterProgs(filter, btn) {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
-    btn.classList.add('on');
-    renderProgs(filter);
-}
+function filterProgs(filter,btn){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));btn.classList.add('on');renderProgs(filter);}
+function toggleWait(id){document.getElementById(id).classList.toggle('open');}
 
-function toggleWait(id) { document.getElementById(id).classList.toggle('open'); }
-
-// ── 대기 신청 ──
-function submitWait(pid, pname) {
-    const dong = document.getElementById('dong-' + pid).value.trim();
-    const ho   = document.getElementById('ho-'   + pid).value.trim();
-    if (!dong || !ho) { toast('⚠️ 동과 호수를 모두 입력해주세요'); return; }
-
-    const unit = dong + '-' + ho;
-    const wid  = 'W' + Date.now();
-
-    // 로컬 즉시 반영
-    waitlist.push({id:wid, timestamp:new Date().toISOString(), program_id:pid, program_name:pname, unit, status:'대기'});
-    renderWait();
-    toast('✅ 대기 명단에 등록되었습니다!');
-    document.getElementById('dong-' + pid).value = '';
-    document.getElementById('ho-'   + pid).value = '';
-    document.getElementById('wf-'   + pid).classList.remove('open');
-
-    // 구글시트 전송
-    const cb = 'gxW' + Date.now();
-    const sc = document.createElement('script');
-    window[cb] = function(res) { delete window[cb]; sc.remove(); };
-    sc.onerror = function() { delete window[cb]; sc.remove(); };
-    sc.src = SCRIPT_URL
-        + '?action=addWait'
-        + '&wid='      + encodeURIComponent(wid)
-        + '&pid='      + encodeURIComponent(pid)
-        + '&pname='    + encodeURIComponent(pname)
-        + '&unit='     + encodeURIComponent(unit)
-        + '&callback=' + cb
-        + '&t='        + Date.now();
+function submitWait(pid,pname){
+    const dong=document.getElementById('dong-'+pid).value.trim(),ho=document.getElementById('ho-'+pid).value.trim();
+    if(!dong||!ho){toast('동과 호수를 모두 입력해주세요');return;}
+    const unit=dong+'-'+ho,wid='W'+Date.now();
+    waitlist.push({id:wid,timestamp:new Date().toISOString(),program_id:pid,program_name:pname,unit,status:'대기'});
+    renderWait();toast('대기 명단에 등록되었습니다');
+    document.getElementById('dong-'+pid).value='';document.getElementById('ho-'+pid).value='';document.getElementById('wf-'+pid).classList.remove('open');
+    const cb='gxW'+Date.now(),sc=document.createElement('script');
+    window[cb]=function(r){delete window[cb];sc.remove();};sc.onerror=function(){delete window[cb];sc.remove();};
+    sc.src=SCRIPT_URL+'?action=addWait&wid='+encodeURIComponent(wid)+'&pid='+encodeURIComponent(pid)+'&pname='+encodeURIComponent(pname)+'&unit='+encodeURIComponent(unit)+'&callback='+cb+'&t='+Date.now();
     document.body.appendChild(sc);
 }
 
-// ── 대기자 렌더 (종목별) ──
-function renderWait() {
-    const container = document.getElementById('wait-prog-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    // 대기자가 있는 종목 OR 마감된 종목 모두 표시
-    const showProgs = programs.filter(p => {
-        const hasWait = waitlist.some(w => w.program_id === p.id);
-        const isFull  = Number(p.current) >= Number(p.max);
-        return hasWait || isFull;
-    });
-
-    if (!showProgs.length) {
-        container.innerHTML = `<div style="text-align:center;color:var(--t3);padding:40px;">대기자가 없습니다</div>`;
-        return;
-    }
-
-    showProgs.forEach(p => {
-        const myWait = waitlist.filter(w => w.program_id === p.id);
-        const count  = myWait.length;
-
-        const rows = myWait.length
-            ? myWait.map((r, i) => `
-                <tr>
-                    <td>${i+1}</td>
-                    <td>${r.unit}</td>
-                    <td style="color:var(--warn);font-weight:700">${r.status}</td>
-                </tr>`).join('')
-            : `<tr><td colspan="3" style="color:var(--t3);padding:16px">대기자가 없습니다</td></tr>`;
-
-        const div = document.createElement('div');
-        div.className = 'wait-prog-item';
-        div.innerHTML = `
-            <div class="wait-prog-header" onclick="toggleWaitProg('wp-${p.id}', this)">
-                <div class="wait-prog-header-left">
-                    <div class="wait-prog-header-name">${p.name}</div>
-                    <div class="wait-prog-header-time">${p.days} · ${p.time}</div>
-                </div>
-                <div class="wait-prog-header-right">
-                    <span class="wait-count-badge ${count > 0 ? 'has-wait' : ''}">대기 ${count}명</span>
-                    <span class="wait-arrow">›</span>
-                </div>
-            </div>
-            <div class="wait-prog-body" id="wp-${p.id}">
-                <table class="tbl">
-                    <thead><tr><th>번호</th><th>동·호수</th><th>상태</th></tr></thead>
-                    <tbody>${rows}</tbody>
-                </table>
-            </div>
-        `;
+function renderWait(){
+    const container=document.getElementById('wait-prog-list');if(!container)return;container.innerHTML='';
+    const showProgs=programs.filter(p=>{const hasWait=waitlist.some(w=>w.program_id===p.id);return hasWait||getStatus(p)==='full';});
+    if(!showProgs.length){container.innerHTML=`<div style="text-align:center;color:var(--t3);padding:40px;font-size:13px;">대기자가 없습니다</div>`;return;}
+    showProgs.forEach(p=>{
+        const myWait=waitlist.filter(w=>w.program_id===p.id),count=myWait.length;
+        const rows=myWait.length?myWait.map((r,i)=>`<tr><td>${i+1}</td><td>${r.unit}</td><td style="color:var(--warn)">${r.status}</td></tr>`).join(''):`<tr><td colspan="3" style="color:var(--t3);padding:14px">대기자 없음</td></tr>`;
+        const div=document.createElement('div');div.className='wait-prog-item';
+        div.innerHTML=`<div class="wait-prog-header" onclick="toggleWaitProg('wp-${p.id}',this)"><div><div class="wait-prog-name">${p.name}</div><div class="wait-prog-time">${p.days} · ${p.time}</div></div><div style="display:flex;align-items:center;gap:6px;"><span class="wait-count ${count===0?'empty':''}">${count}명</span><span class="wait-arrow">›</span></div></div><div class="wait-prog-body" id="wp-${p.id}"><table class="tbl"><thead><tr><th>#</th><th>동·호수</th><th>상태</th></tr></thead><tbody>${rows}</tbody></table></div>`;
         container.appendChild(div);
     });
 }
+function toggleWaitProg(id,header){document.getElementById(id).classList.toggle('open');header.querySelector('.wait-arrow').classList.toggle('open');}
 
-function toggleWaitProg(id, header) {
-    const body  = document.getElementById(id);
-    const arrow = header.querySelector('.wait-arrow');
-    body.classList.toggle('open');
-    arrow.classList.toggle('open');
-}
-
-// ── 강사 ──
-function renderInstrs() {
-    const grid = document.getElementById('instr-grid');
-    grid.innerHTML = '';
-    instructors.forEach(instr => {
-        const div = document.createElement('div');
-        div.className = 'instr-card';
-        div.onclick = () => openModal(instr.id);
-        div.innerHTML = `
-            <div class="avatar instr-card" style="width:64px;height:64px;font-size:22px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;">
-                ${instr.photo_url ? `<img src="${instr.photo_url}" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;">` : instr.name.charAt(0)}
-            </div>
-            <div class="instr-card-name">${instr.name}</div>
-            <div class="instr-card-spec">${instr.specialty}</div>
-            <div class="instr-card-career">${instr.career}</div>
-        `;
+function renderInstrs(){
+    const grid=document.getElementById('instr-grid');grid.innerHTML='';
+    instructors.forEach(instr=>{
+        const div=document.createElement('div');div.className='instr-card';div.onclick=()=>openModal(instr.id);
+        div.innerHTML=`<div class="avatar" style="width:56px;height:56px;font-size:20px;margin:0 auto 10px;">${instr.photo_url?`<img src="${instr.photo_url}" alt="">`:instr.name.charAt(0)}</div><div class="instr-card-name">${instr.name}</div><div class="instr-card-spec">${instr.specialty}</div><div class="instr-card-career">${instr.career}</div>`;
         grid.appendChild(div);
     });
 }
 
-function openModal(iid) {
-    const instr = instructors.find(i => i.id === iid);
-    if (!instr) return;
-    const av = document.getElementById('modal-av');
-    av.innerHTML = instr.photo_url
-        ? `<img src="${instr.photo_url}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-        : instr.name.charAt(0);
-    document.getElementById('modal-name').textContent   = instr.name;
-    document.getElementById('modal-spec').textContent   = instr.specialty;
-    document.getElementById('modal-career').textContent = '📋 ' + instr.career;
-    document.getElementById('modal-intro').textContent  = instr.intro || '';
-    const myProgs = programs.filter(p => p.instructor_id === iid);
-    document.getElementById('modal-progs').innerHTML =
-        myProgs.map(p => `<span class="prog-chip">${p.name} (${p.days} ${p.time})</span>`).join('');
+function openModal(iid){
+    const instr=instructors.find(i=>i.id===iid);if(!instr)return;
+    const av=document.getElementById('modal-av');
+    av.innerHTML=instr.photo_url?`<img src="${instr.photo_url}" alt="" style="width:100%;height:100%;object-fit:cover;">`:instr.name.charAt(0);
+    document.getElementById('modal-name').textContent=instr.name;
+    document.getElementById('modal-spec').textContent=instr.specialty;
+    document.getElementById('modal-career').textContent=instr.career;
+    document.getElementById('modal-intro').textContent=instr.intro||'';
+    const myProgs=programs.filter(p=>p.instructor_id===iid);
+    document.getElementById('modal-progs').innerHTML=myProgs.map(p=>`<span class="prog-chip">${p.name} ${p.days} ${p.time}</span>`).join('');
     document.getElementById('modal-bg').classList.add('open');
 }
-function closeModal(e) {
-    if (!e || e.target === document.getElementById('modal-bg'))
-        document.getElementById('modal-bg').classList.remove('open');
-}
+function closeModal(e){if(!e||e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').classList.remove('open');}
 
-// ── 관리자 ──
-function askAdmin() {
-    const pw = prompt('관리자 비밀번호를 입력하세요');
-    if (pw === ADMIN_PW) {
-        isAdmin = true;
-        document.getElementById('adminTab').style.display = 'block';
-        goTab('s-admin', document.getElementById('adminTab'));
-        toast('✅ 관리자 모드 활성화');
-    } else if (pw !== null) {
-        toast('❌ 비밀번호가 틀렸습니다');
-    }
-}
-function logoutAdmin() { if (confirm('로그아웃?')) location.reload(); }
-
-function renderAdmin() {
-    const sel = document.getElementById('admin-prog-sel');
-    sel.innerHTML = programs.map(p =>
-        `<option value="${p.id}">${p.name} (${p.days} ${p.time}) — ${p.current}/${p.max}명</option>`
-    ).join('');
-    onAdminProgChange();
-
-    const tbody = document.getElementById('admin-tbody');
-    if (!waitlist.length) {
-        tbody.innerHTML = `<tr><td colspan="4" style="color:var(--t3);padding:20px">없음</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = waitlist.map(r => `
-        <tr>
-            <td style="font-size:10px">${new Date(r.timestamp||Date.now()).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</td>
-            <td style="text-align:left;font-size:11px">${r.program_name||''}</td>
-            <td>${r.unit}</td>
-            <td style="color:var(--warn);font-weight:700">${r.status}</td>
-        </tr>`).join('');
-}
-
-function onAdminProgChange() {
-    const p = programs.find(x => x.id === document.getElementById('admin-prog-sel').value);
-    if (p) document.getElementById('admin-current').value = p.current;
-}
-
-function adminSave() {
-    const pid   = document.getElementById('admin-prog-sel').value;
-    const count = parseInt(document.getElementById('admin-current').value);
-    const p     = programs.find(x => x.id === pid);
-    if (!p || isNaN(count) || count < 0 || count > p.max) { toast('⚠️ 올바른 인원을 입력해주세요'); return; }
-    p.current = count;
-    renderAll();
-    toast(`✅ ${p.name} → ${count}명`);
-
-    const cb = 'gxA' + Date.now();
-    const sc = document.createElement('script');
-    window[cb] = function(res) { delete window[cb]; sc.remove(); };
-    sc.onerror = function() { delete window[cb]; sc.remove(); };
-    sc.src = SCRIPT_URL
-        + '?action=updateCurrent'
-        + '&pid='      + encodeURIComponent(pid)
-        + '&current='  + count
-        + '&callback=' + cb
-        + '&t='        + Date.now();
+function submitOT(){
+    const time=document.querySelector('input[name="ot-time"]:checked')?.value||'오전';
+    const dong=document.getElementById('ot-dong').value.trim();
+    const ho  =document.getElementById('ot-ho').value.trim();
+    const name=document.getElementById('ot-name').value.trim();
+    const phone=document.getElementById('ot-phone').value.trim();
+    if(!dong||!ho||!name||!phone){toast('모든 항목을 입력해주세요');return;}
+    const unit=dong+'-'+ho,oid='OT'+Date.now();
+    toast('OT 신청이 완료되었습니다');resetOT();
+    const cb='gxOT'+Date.now(),sc=document.createElement('script');
+    window[cb]=function(r){delete window[cb];sc.remove();};sc.onerror=function(){delete window[cb];sc.remove();};
+    sc.src=SCRIPT_URL+'?action=addOT&oid='+encodeURIComponent(oid)+'&time='+encodeURIComponent(time)+'&unit='+encodeURIComponent(unit)+'&name='+encodeURIComponent(name)+'&phone='+encodeURIComponent(phone)+'&callback='+cb+'&t='+Date.now();
     document.body.appendChild(sc);
 }
-
-// ── 강사 로그인 ──
-const TEACHER_PW = '5678';
-
-function askTeacher() {
-    const pw = prompt('강사 비밀번호를 입력하세요');
-    if (pw === TEACHER_PW) {
-        document.getElementById('teacherTab').style.display = 'block';
-        goTab('s-teacher', document.getElementById('teacherTab'));
-        initTeacher();
-        toast('✅ 강사 모드 활성화');
-    } else if (pw !== null) {
-        toast('❌ 비밀번호가 틀렸습니다');
-    }
+function resetOT(){
+    document.getElementById('ot-dong').value='';document.getElementById('ot-ho').value='';
+    document.getElementById('ot-name').value='';document.getElementById('ot-phone').value='';
+    document.getElementById('ot-am').checked=true;
 }
 
-function initTeacher() {
-    const sel = document.getElementById('att-prog-sel');
-    sel.innerHTML = '<option value="">종목을 선택하세요</option>' +
-        programs.map(p => `<option value="${p.id}">${p.name} (${p.days} ${p.time})</option>`).join('');
+function askTeacher(){
+    const pw=prompt('강사 비밀번호를 입력하세요');
+    if(pw===TEACHER_PW){document.getElementById('teacherTab').classList.remove('hidden');goTab('s-teacher',document.getElementById('teacherTab'));initTeacher();toast('강사 모드 활성화');}
+    else if(pw!==null){toast('비밀번호가 틀렸습니다');}
 }
-
-// ── 수강생 명단 로드 ──
-function loadMembers() {
-    const pid = document.getElementById('att-prog-sel').value;
-    const container = document.getElementById('att-container');
-    if (!pid) { container.innerHTML = ''; return; }
-
-    const prog = programs.find(p => p.id === pid);
-    container.innerHTML = `<div style="text-align:center;color:var(--t3);padding:20px;">로딩 중...</div>`;
-
-    const cb = 'gxMem' + Date.now();
-    const sc = document.createElement('script');
-    window[cb] = function(data) {
-        delete window[cb]; sc.remove();
-        const members = (data && data.list) || [];
-        if (!members.length) {
-            container.innerHTML = `<div style="text-align:center;color:var(--t3);padding:30px;">
-                구글시트 members 탭에 회원을 등록해주세요</div>`;
-            return;
-        }
-
-        const total = members.length;
-        let html = `
-            <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 10px;">
-                <div style="font-size:13px;font-weight:700;color:var(--t2)">총 ${total}명</div>
-            </div>
-            <div class="att-list">`;
-
-        members.forEach((m, i) => {
-            html += `
-                <div class="att-item">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#667eea,#4299e1);
-                            display:flex;align-items:center;justify-content:center;font-size:11px;color:white;font-weight:700;flex-shrink:0;">
-                            ${i+1}
-                        </div>
-                        <div class="att-name">${m.name}</div>
-                    </div>
-                </div>`;
-        });
-        html += `</div>`;
-        container.innerHTML = html;
+function initTeacher(){
+    const sel=document.getElementById('att-prog-sel');
+    sel.innerHTML='<option value="">종목을 선택하세요</option>'+programs.map(p=>`<option value="${p.id}">${p.name} (${p.days} ${p.time})</option>`).join('');
+}
+function loadMembers(){
+    const pid=document.getElementById('att-prog-sel').value;
+    const container=document.getElementById('att-container');
+    if(!pid){container.innerHTML='';return;}
+    container.innerHTML=`<div style="text-align:center;color:var(--t3);padding:20px;font-size:13px;">로딩 중...</div>`;
+    const cb='gxMem'+Date.now(),sc=document.createElement('script');
+    window[cb]=function(data){
+        delete window[cb];sc.remove();
+        const members=(data&&data.list)||[];
+        if(!members.length){container.innerHTML=`<div style="text-align:center;color:var(--t3);padding:30px;font-size:13px;">members 탭에 회원을 등록해주세요</div>`;return;}
+        container.innerHTML=`<div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin:14px 0 10px;">TOTAL ${members.length}</div><div class="member-list">${members.map((m,i)=>`<div class="member-item"><div class="member-num">${i+1}</div><div class="member-name">${m.name}</div></div>`).join('')}</div>`;
     };
-    sc.onerror = function() { delete window[cb]; sc.remove();
-        container.innerHTML = `<div style="color:var(--full);padding:20px;">불러오기 실패</div>`; };
-    sc.src = SCRIPT_URL
-        + '?action=getMembers'
-        + '&pid='      + encodeURIComponent(pid)
-        + '&callback=' + cb
-        + '&t='        + Date.now();
+    sc.onerror=function(){delete window[cb];sc.remove();container.innerHTML=`<div style="color:var(--full);padding:20px;font-size:13px;">불러오기 실패</div>`;};
+    sc.src=SCRIPT_URL+'?action=getMembers&pid='+encodeURIComponent(pid)+'&callback='+cb+'&t='+Date.now();
     document.body.appendChild(sc);
 }
 
-window.onload = fetchData;
+function askAdmin(){
+    const pw=prompt('관리자 비밀번호를 입력하세요');
+    if(pw===ADMIN_PW){isAdmin=true;document.getElementById('adminTab').classList.remove('hidden');goTab('s-admin',document.getElementById('adminTab'));toast('관리자 모드 활성화');}
+    else if(pw!==null){toast('비밀번호가 틀렸습니다');}
+}
+function logoutAdmin(){if(confirm('로그아웃하시겠습니까?'))location.reload();}
+
+function renderAdmin(){
+    const sel=document.getElementById('admin-prog-sel');
+    sel.innerHTML=programs.map(p=>`<option value="${p.id}">${p.name} (${p.days} ${p.time}) — ${p.current}/${p.max}</option>`).join('');
+    onAdminProgChange();
+    renderOTAdmin('전체');
+    const tbody=document.getElementById('admin-tbody');
+    if(!waitlist.length){tbody.innerHTML=`<tr><td colspan="4" style="color:var(--t3);padding:16px">없음</td></tr>`;return;}
+    tbody.innerHTML=waitlist.map((r,i)=>`<tr><td>${i+1}</td><td style="text-align:left;font-size:11px">${r.program_name||''}</td><td>${r.unit}</td><td style="color:var(--warn)">${r.status}</td></tr>`).join('');
+}
+
+function renderOTAdmin(filter){
+    const list=filter==='전체'?otList:otList.filter(o=>o.time===filter);
+    const tbody=document.getElementById('ot-admin-body');
+    if(!list.length){tbody.innerHTML=`<tr><td colspan="4" style="color:var(--t3);padding:16px">없음</td></tr>`;return;}
+    tbody.innerHTML=list.map(o=>`<tr><td style="color:var(--accent);font-family:var(--mono)">${o.time}</td><td>${o.unit}</td><td>${o.name}</td><td style="font-family:var(--mono);font-size:11px">${o.phone}</td></tr>`).join('');
+}
+function filterOT(filter,btn){document.querySelectorAll('.ot-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');renderOTAdmin(filter);}
+
+function onAdminProgChange(){const p=programs.find(x=>x.id===document.getElementById('admin-prog-sel').value);if(p)document.getElementById('admin-current').value=p.current;}
+
+function adminSave(){
+    const pid=document.getElementById('admin-prog-sel').value,count=parseInt(document.getElementById('admin-current').value);
+    const p=programs.find(x=>x.id===pid);
+    if(!p||isNaN(count)||count<0||count>p.max){toast('올바른 인원을 입력해주세요');return;}
+    p.current=count;renderAll();toast(`${p.name} → ${count}명`);
+    const cb='gxA'+Date.now(),sc=document.createElement('script');
+    window[cb]=function(r){delete window[cb];sc.remove();};sc.onerror=function(){delete window[cb];sc.remove();};
+    sc.src=SCRIPT_URL+'?action=updateCurrent&pid='+encodeURIComponent(pid)+'&current='+count+'&callback='+cb+'&t='+Date.now();
+    document.body.appendChild(sc);
+}
+
+window.onload=fetchData;
 </script>
 </body>
 </html>
