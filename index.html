@@ -663,6 +663,8 @@ function loadMembers(){
             <div style="font-size:12px;color:var(--t3);">총 ${members.length}명</div>
         </div><div class="member-list">`;
 
+        // 종목명은 programs에서 가져오기
+        const progName = programs.find(p=>p.id===pid)?.name || '';
         members.forEach((m,i)=>{
             const key=pid+'_'+dateStr+'_'+m.name;
             const st=attState[key]||'none';
@@ -671,12 +673,13 @@ function loadMembers(){
                     <div class="member-num">${i+1}</div>
                     <div class="member-name">${m.name}</div>
                 </div>
-                <button onclick="toggleAtt('${pid}','${dateStr}','${m.name}','${encodeURIComponent(data.list[i]?.program_name||'')}',${i},this)"
-                    style="width:40px;height:40px;border-radius:50%;border:2px solid ${st==='checked'?'var(--ok)':st==='cancelled'?'var(--full)':'var(--border)'};
-                    background:${st==='checked'?'var(--ok-dim)':st==='cancelled'?'var(--full-dim)':'transparent'};
-                    color:${st==='checked'?'var(--ok)':st==='cancelled'?'var(--full)':'var(--t3)'};
+                <button data-pid="${pid}" data-date="${dateStr}" data-name="${m.name}" data-pname="${progName}" data-idx="${i}"
+                    onclick="toggleAtt(this)"
+                    style="width:40px;height:40px;border-radius:50%;border:2px solid ${st==='checked'?'var(--ok)':'var(--border)'};
+                    background:${st==='checked'?'var(--ok-dim)':'transparent'};
+                    color:${st==='checked'?'var(--ok)':'var(--t3)'};
                     font-size:16px;font-weight:900;cursor:pointer;transition:all .2s;font-family:sans-serif;">
-                    ${st==='checked'?'✓':st==='cancelled'?'✗':''}
+                    ${st==='checked'?'✓':''}
                 </button>
             </div>`;
         });
@@ -688,48 +691,44 @@ function loadMembers(){
     document.body.appendChild(sc);
 }
 
-function toggleAtt(pid, dateStr, name, pname, idx, btn){
-    const key=pid+'_'+dateStr+'_'+name;
-    const cur=attState[key]||'none';
+function toggleAtt(btn){
+    const pid     = btn.dataset.pid;
+    const dateStr = btn.dataset.date;
+    const name    = btn.dataset.name;
+    const pname   = btn.dataset.pname;
+    const key     = pid+'_'+dateStr+'_'+name;
+    const cur     = attState[key]||'none';
 
-    // none → checked → none → 먹통(locked)
-    if(cur==='locked') return; // 고정, 아무것도 안함
+    // none → checked → none2(취소) → locked(먹통)
+    if(cur==='locked') return;
 
-    let next;
-    if(cur==='none')    next='checked'; // 첫 클릭: 체크
-    else if(cur==='checked') next='none'; // 두번째: 공란 (실수 취소)
-    else if(cur==='none2')   next='locked'; // 세번째: 먹통 고정
-    // none에서 다시 누르면 none2로 구분
-    if(cur==='none') { attState[key]='checked'; }
-    else if(cur==='checked') { attState[key]='none2'; }
-    else if(cur==='none2') { attState[key]='locked'; return; }
-
-    const state=attState[key];
-
-    // 버튼 스타일
-    if(state==='checked'){
+    let next, saveStatus;
+    if(cur==='none'){
+        next='checked'; saveStatus='checked';
         btn.style.borderColor='var(--ok)';
         btn.style.background='var(--ok-dim)';
         btn.style.color='var(--ok)';
         btn.textContent='✓';
-        btn.disabled=false;
-    } else if(state==='none2'){
+    } else if(cur==='checked'){
+        next='none2'; saveStatus='none';
         btn.style.borderColor='var(--border)';
         btn.style.background='transparent';
         btn.style.color='var(--t3)';
         btn.textContent='';
-        btn.disabled=false;
-    } else if(state==='locked'){
+    } else if(cur==='none2'){
+        next='locked';
         btn.style.borderColor='var(--s3)';
         btn.style.background='var(--s3)';
         btn.style.color='var(--t3)';
         btn.textContent='';
         btn.disabled=true;
-        return; // 시트에 저장 안함
+        attState[key]=next;
+        return; // locked는 시트 저장 안함
     }
 
-    // 구글시트 저장 (checked만 저장, none2는 삭제 의미)
-    const saveStatus = state==='checked'?'checked':'none';
+    attState[key]=next;
+
+    // 구글시트 저장
     const cb='gxAtt'+Date.now(),sc=document.createElement('script');
     window[cb]=function(r){delete window[cb];sc.remove();};
     sc.onerror=function(){delete window[cb];sc.remove();};
