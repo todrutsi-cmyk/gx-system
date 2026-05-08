@@ -200,7 +200,7 @@ select option{background:var(--s2);}
     <div class="nav-inner">
         <button class="nav-btn on"     onclick="goTab('s-home',       this)">홈</button>
         <button class="nav-btn"        onclick="goTab('s-schedule',   this)">시간표</button>
-        <button class="nav-btn"        onclick="goTab('s-programs',   this)">현황</button>
+        <button class="nav-btn"        onclick="goTab('s-programs',   this)">현황·대기</button>
         <button class="nav-btn"        onclick="goTab('s-instructors',this)">강사</button>
         <button class="nav-btn"        onclick="goTab('s-waitlist',   this)">대기</button>
         <button class="nav-btn"        onclick="goTab('s-ot',         this)">OT 신청</button>
@@ -278,7 +278,7 @@ select option{background:var(--s2);}
     <div class="card">
         <div class="card-eyebrow">PROGRAM STATUS</div>
         <div class="card-title">전체 종목 현황</div>
-        <div class="card-sub">마감 종목은 하단에서 대기 신청이 가능합니다</div>
+        <div style="font-size:15px;font-weight:800;color:var(--full);margin-bottom:18px;padding:12px 16px;background:var(--full-dim);border:1px solid rgba(252,129,129,0.3);border-radius:10px;">마감 종목은 하단에서 대기 신청이 가능합니다</div>
         <div class="chips">
             <button class="chip on" onclick="filterProgs('all',this)">전체</button>
             <button class="chip"    onclick="filterProgs('gym',this)">헬스장</button>
@@ -422,7 +422,7 @@ const ADMIN_PW='1234', TEACHER_PW='5678';
 let programs=[], instructors=[], waitlist=[], otList=[];
 let isAdmin=false, progFilter='all';
 
-const SHORT={'p1':'매트필라(오전)','p2':'매트필라(오전)','p3':'오전요가','p4':'오전요가','p5':'오전줌바','p6':'키즈댄스','p7':'매트필라(오후)','p8':'매트필라(오후)','p9':'오후줌바','p10':'오후줌바','p11':'유아체육(월)','p12':'유아체육(수)','p13':'어린이줄넘기','p14':'어린이줄넘기','p15':'어린이줄넘기','p16':'배드민턴A','p17':'배드민턴B','p18':'어린이농구A','p19':'어린이농구B'};
+const SHORT={'p1':'매트필라(오전)','p2':'매트필라(오전)','p3':'오전요가','p4':'오전요가','p5':'오전줌바','p6':'키즈댄스','p7':'매트필라(오후)','p8':'매트필라(오후)','p9':'오후줌바','p10':'오후줌바','p11':'유아체육(월)','p12':'유아체육(수)','p13':'어린이줄넘기','p14':'어린이줄넘기','p15':'어린이줄넘기','p16':'배드민턴(유소년)','p17':'배드민턴(성인)','p18':'어린이농구A','p19':'어린이농구B'};
 
 function getStatus(p){const c=Number(p.current),m=Number(p.max);if(!m)return'ok';if(c>=m)return'full';if(c/m>=0.8)return'warn';return'ok';}
 function getLeft(p){return Math.max(0,Number(p.max)-Number(p.current));}
