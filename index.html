@@ -346,6 +346,8 @@ select option{background:var(--s2);}
         <div class="field"><div class="field-label">종목</div><select id="admin-prog-sel" onchange="onAdminProgChange()"></select></div>
         <div class="field"><div class="field-label">현재 수강 인원</div><input type="number" id="admin-current" min="0"></div>
         <button class="btn-primary btn-admin" onclick="adminSave()">저장</button>
+        <button class="btn-primary" style="background:linear-gradient(180deg,#2d7a4f,#1a5235);border-color:rgba(104,211,145,0.5);margin-top:8px;" onclick="syncMembers()">수강 인원 동기화</button>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px;margin-bottom:4px;">members 탭 인원수 → programs current 자동 반영</div>
         <div class="divider"></div>
         <div class="card-title" style="font-size:17px;margin-bottom:12px;">OT 신청 목록</div>
         <div class="ot-tab-row">
@@ -417,7 +419,7 @@ select option{background:var(--s2);}
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbx5v_dygR_DHlTjcfn-U2RgKd-d55DI5vucv9BYpS0bMHUFp50Kn5kXRNl72CelZfn_/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzPsZFc5GI2n4McMxdZ8UpHwLvoSUcLfQ7iUoZw8gS-DHq-ag196rJZWVI0PIUSE4E9/exec';
 const ADMIN_PW='1234', TEACHER_PW='5678';
 let programs=[], instructors=[], waitlist=[], otList=[];
 let isAdmin=false, progFilter='all';
@@ -758,6 +760,23 @@ function renderOTAdmin(filter){
 }
 function filterOT(filter,btn){document.querySelectorAll('.ot-tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');renderOTAdmin(filter);}
 function onAdminProgChange(){const p=programs.find(x=>x.id===document.getElementById('admin-prog-sel').value);if(p)document.getElementById('admin-current').value=p.current;}
+function syncMembers(){
+    toast('동기화 중...');
+    const cb='gxSync'+Date.now(), sc=document.createElement('script');
+    window[cb]=function(r){
+        delete window[cb]; sc.remove();
+        if(r&&r.success){
+            toast('✅ 인원 동기화 완료!');
+            fetchData();
+        } else {
+            toast('❌ 동기화 실패');
+        }
+    };
+    sc.onerror=function(){delete window[cb];sc.remove();toast('❌ 동기화 실패');};
+    sc.src=SCRIPT_URL+'?action=syncMembers&callback='+cb+'&t='+Date.now();
+    document.body.appendChild(sc);
+}
+
 function adminSave(){
     const pid=document.getElementById('admin-prog-sel').value,count=parseInt(document.getElementById('admin-current').value);
     const p=programs.find(x=>x.id===pid);
